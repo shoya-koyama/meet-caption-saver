@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Google Meet Caption Saver",
+  "version": "0.1.0",
+  "description": "Capture Google Meet live captions and save them to a text file.",
+  "permissions": ["storage", "downloads", "activeTab", "scripting"],
+  "host_permissions": ["https://meet.google.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Meet Caption Saver"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
