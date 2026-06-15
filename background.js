@@ -2,7 +2,8 @@
 // Stores captured captions in chrome.storage and handles download requests.
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.set({captions: [], enabled: false});
+  // Start capturing by default so extension can run headlessly; click action downloads the file.
+  chrome.storage.local.set({captions: [], enabled: true});
 });
 
 // Single action button: download current captions when clicked
