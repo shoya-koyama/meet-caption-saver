@@ -5,6 +5,19 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({captions: [], enabled: false});
 });
 
+// Single action button: download current captions when clicked
+chrome.action.onClicked.addListener((tab) => {
+  chrome.storage.local.get('captions', res => {
+    const arr = res.captions || [];
+    const text = arr.map(x => {
+      const t = x.ts ? new Date(x.ts).toLocaleString() : '';
+      return t ? `${t} - ${x.text}` : x.text;
+    }).join('\n');
+    const url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+    chrome.downloads.download({url, filename: 'meet-captions.txt'});
+  });
+});
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if(msg && msg.type === 'caption'){
     // Append caption only when enabled
